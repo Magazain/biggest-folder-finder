@@ -1,13 +1,17 @@
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
     public static void main(String[] args) {
         String folderPath = "/Users/kirillmagazinov/IT/java/Теория";
         File file = new File(folderPath);
-        //System.out.println(file.length());
-        System.out.println(getFolderSize(file));
+
+        FolderSizeCalculator calculator = new FolderSizeCalculator(file);
+        ForkJoinPool pool = new ForkJoinPool();
+        long size = pool.invoke(calculator);
+        System.out.println(size);
     }
 
     public static long getFolderSize(File folder){
